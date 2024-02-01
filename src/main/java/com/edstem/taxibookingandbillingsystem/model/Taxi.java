@@ -1,0 +1,22 @@
+package com.edstem.taxibookingandbillingsystem.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+@Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+public class Taxi {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String driverName;
+    private String licenseNumber;
+    private String currentLocation;
+}
