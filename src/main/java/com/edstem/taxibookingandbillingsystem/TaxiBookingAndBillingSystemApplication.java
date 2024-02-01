@@ -5,6 +5,7 @@ import org.modelmapper.config.Configuration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
 @SpringBootApplication
 public class TaxiBookingAndBillingSystemApplication {
@@ -20,5 +21,7 @@ public class TaxiBookingAndBillingSystemApplication {
 				.setFieldMatchingEnabled(true);
 		return mapper;
 	}
+
+
 
 }

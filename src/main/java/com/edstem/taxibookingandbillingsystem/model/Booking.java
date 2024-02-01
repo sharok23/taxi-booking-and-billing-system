@@ -1,11 +1,14 @@
 package com.edstem.taxibookingandbillingsystem.model;
 
+import com.edstem.taxibookingandbillingsystem.constant.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +29,11 @@ public class Booking {
     private Double fare;
     private LocalDate bookingTime;
     @Enumerated(EnumType.STRING)
-    private Enum status;
+    private Status status;
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "taxi_id")
+    private Taxi taxi;
 }
