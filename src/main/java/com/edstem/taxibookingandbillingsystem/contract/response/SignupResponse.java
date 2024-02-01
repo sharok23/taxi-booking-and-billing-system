@@ -1,9 +1,10 @@
-package com.edstem.taxibookingandbillingsystem.contract.request;
+package com.edstem.taxibookingandbillingsystem.contract.response;
 
 import lombok.Getter;
 
 @Getter
-public class UserRegistration {
+public class SignupResponse {
+    private Long id;
     private String name;
     private String email;
     private String password;

@@ -1,18 +1,20 @@
 package com.edstem.taxibookingandbillingsystem.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class Booking {
     @Id
@@ -23,5 +25,6 @@ public class Booking {
     private String dropoffLocation;
     private Double fare;
     private LocalDate bookingTime;
+    @Enumerated(EnumType.STRING)
     private Enum status;
 }
