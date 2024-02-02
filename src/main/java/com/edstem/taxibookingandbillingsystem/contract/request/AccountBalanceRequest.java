@@ -1,11 +1,10 @@
 package com.edstem.taxibookingandbillingsystem.contract.request;
 
-import com.edstem.taxibookingandbillingsystem.constant.Status;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-
-import java.time.LocalDate;
 
 @Getter
 public class AccountBalanceRequest {
+    @NotNull(message = "Amount should not be blank")
     private Double accountBalance;
 }
