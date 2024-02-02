@@ -1,6 +1,7 @@
 package com.edstem.taxibookingandbillingsystem.constant;
 
 public enum Status {
-    ACTIIVE,
-    INACTIVE
+    BOOKED,
+    FAILED,
+    CANCELLED
 }

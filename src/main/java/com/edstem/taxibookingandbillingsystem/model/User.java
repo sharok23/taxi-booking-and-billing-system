@@ -30,7 +30,4 @@ public class User {
     private String email;
     private String password;
     private Double accountBalance;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Booking> booking;
-
 }

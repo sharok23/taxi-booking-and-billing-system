@@ -36,9 +36,9 @@ public class UserService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .accountBalance(request.getAccountBalance())
+                .accountBalance(0D)
                 .build();
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
         return modelMapper.map(user,SignupResponse.class);
     }
 
@@ -57,7 +57,13 @@ public class UserService {
     public AccountBalanceResponse updateAccountBalance(Long id, AccountBalanceRequest request) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("User", id));
-        modelMapper.map(request, user);
+        user = User.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .accountBalance(user.getAccountBalance()+ request.getAccountBalance())
+                .build();
         User updatedAccountBalance=userRepository.save(user);
         return modelMapper.map(updatedAccountBalance, AccountBalanceResponse.class);
     }

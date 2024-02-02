@@ -24,6 +24,4 @@ public class Taxi {
     private String driverName;
     private String licenseNumber;
     private String currentLocation;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Booking> booking;
 }
