@@ -8,6 +8,12 @@ import com.edstem.taxibookingandbillingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -17,9 +23,9 @@ public class ApplicationConfiguration {
     private final UserRepository userRepository;
 
 //    @Bean
-//    public User userDetailsService() {
-//        return email ->
-//                userRepository.findByEmail(email)
+//    public UserDetailsService userDetailsService() {
+//        return username->
+//                 userRepository.findByEmail(username)
 //                        .orElseThrow(() -> new EntityNotFoundException("User"));
 //    }
 
@@ -31,21 +37,14 @@ public class ApplicationConfiguration {
 
 //    @Bean
 //    public AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider =
-//                new DaoAuthenticationProvider() {
-//                    public void additionalAuthenticationChecks(
-//                            UserDetails userDetails,
-//                            UsernamePasswordAuthenticationToken authentication) {
-//                        if (!passwordEncoder()
-//                                .matches(
-//                                        authentication.getCredentials().toString(),
-//                                        userDetails.getPassword())) {
-//                            throw new EntityNotFoundException("User");
-//                        }
-//                    }
-//                };
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 //        authProvider.setUserDetailsService(userDetailsService());
 //        authProvider.setPasswordEncoder(passwordEncoder());
 //        return authProvider;
+//    }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+//        return config.getAuthenticationManager();
 //    }
 }

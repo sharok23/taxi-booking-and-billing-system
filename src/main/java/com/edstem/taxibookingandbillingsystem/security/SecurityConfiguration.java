@@ -9,6 +9,7 @@
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.http.SessionCreationPolicy;
 //import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 //
 //@Configuration
 //@EnableWebSecurity
@@ -16,7 +17,8 @@
 //@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 //public class SecurityConfiguration {
 //
-//
+//    private final AuthenticationProvider authenticationProvider;
+//    private final JwtAuthenticationFilter jwtAuthFilter;
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http.csrf()
@@ -28,7 +30,10 @@
 //                .authenticated()
 //                .and()
 //                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) ;
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authenticationProvider(authenticationProvider)
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 //        return http.build();
 //    }
 //}

@@ -14,6 +14,7 @@ import com.edstem.taxibookingandbillingsystem.repository.BookingRepository;
 import com.edstem.taxibookingandbillingsystem.repository.TaxiRepository;
 import com.edstem.taxibookingandbillingsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

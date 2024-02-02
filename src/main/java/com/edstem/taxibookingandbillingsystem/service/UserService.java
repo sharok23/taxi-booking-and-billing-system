@@ -12,6 +12,7 @@ import com.edstem.taxibookingandbillingsystem.exception.InvalidUserException;
 import com.edstem.taxibookingandbillingsystem.model.User;
 import com.edstem.taxibookingandbillingsystem.repository.UserRepository;
 import com.edstem.taxibookingandbillingsystem.security.JwtService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -43,8 +44,11 @@ public class UserService {
     }
 
     public LoginResponse userLogin(LoginRequest request) {
-//        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new InvalidUserException("Login"));
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()->
+        new  InvalidUserException("Login"));
+
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 throw new InvalidUserException("Login");
             }

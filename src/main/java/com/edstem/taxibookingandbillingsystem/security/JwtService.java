@@ -1,16 +1,22 @@
 package com.edstem.taxibookingandbillingsystem.security;
 
+import com.edstem.taxibookingandbillingsystem.exception.InvalidUserException;
 import com.edstem.taxibookingandbillingsystem.model.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -34,4 +40,62 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+//    public String extractEmail(String token) {
+//        return extractClaim(token, Claims::getSubject);
+//    }
+//
+//    public boolean isTokenValid(String token, UserDetails userDetails) {
+//        final String username = extractEmail(token);
+// //       List<Permission> permissions = extractPermissions(token);
+
+//
+//        if (!username.equals(userDetails.getUsername())) {
+//            throw new InvalidUserException("Login");
+//        }
+//        if (isTokenExpired(token)) {
+//            throw new InvalidUserException("Login");
+//        }
+//
+//        return true;
+//    }
+//    private boolean isTokenExpired(String token) {
+//        return extractExpiration(token).before(new Date());
+//    }
+
+//    private Date extractExpiration(String token) {
+//        return extractClaim(token, Claims::getExpiration);
+//    }
+
+
+//    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+//        final Claims claims = extractAllClaims(token);
+//        return claimsResolver.apply(claims);
+//    }
+
+//    private Claims extractAllClaims(String token) {
+//        return Jwts.parserBuilder()
+//                .setSigningKey(getSignInKey())
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
+//    }
+
+//    public List<Permission> extractPermissions(String token) {
+//        // Extract the claims from the token
+//        Claims claims = Jwts.parser()
+//                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+//                .parseClaimsJws(token)
+//                .getBody();
+//
+//        // Get the permissions from the claims
+//        List<String> permissionStrings = (List<String>) claims.get("permissions");
+//
+//        // Convert the permission strings to Permission objects
+//        List<Permission> permissions = permissionStrings.stream()
+//                .map(Permission::valueOf)
+//                .collect(Collectors.toList());
+//
+//        return permissions;
+//    }
 }
