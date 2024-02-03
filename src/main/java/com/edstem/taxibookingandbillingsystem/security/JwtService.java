@@ -82,21 +82,4 @@ public class JwtService {
                 .getBody();
     }
 
-//    public List<Permission> extractPermissions(String token) {
-//        // Extract the claims from the token
-//        Claims claims = Jwts.parser()
-//                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-//                .parseClaimsJws(token)
-//                .getBody();
-//
-//        // Get the permissions from the claims
-//        List<String> permissionStrings = (List<String>) claims.get("permissions");
-//
-//        // Convert the permission strings to Permission objects
-//        List<Permission> permissions = permissionStrings.stream()
-//                .map(Permission::valueOf)
-//                .collect(Collectors.toList());
-//
-//        return permissions;
-//    }
 }

@@ -1,12 +1,16 @@
 package com.edstem.taxibookingandbillingsystem.contract.response;
 
 import com.edstem.taxibookingandbillingsystem.constant.Status;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class BookingResponse {
     private Long id;
