@@ -1,5 +1,9 @@
 package com.edstem.taxibookingandbillingsystem.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.edstem.taxibookingandbillingsystem.contract.request.AccountBalanceRequest;
 import com.edstem.taxibookingandbillingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingandbillingsystem.contract.request.SignupRequest;
@@ -9,6 +13,7 @@ import com.edstem.taxibookingandbillingsystem.contract.response.SignupResponse;
 import com.edstem.taxibookingandbillingsystem.model.User;
 import com.edstem.taxibookingandbillingsystem.repository.UserRepository;
 import com.edstem.taxibookingandbillingsystem.security.JwtService;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,12 +23,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
     private UserRepository userRepository;
@@ -57,13 +56,11 @@ public class UserServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
-
     @Test
     void testLogin() {
         User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 0.0);
         LoginRequest request = new LoginRequest("sharok@gmail.com", "Helloworld");
         LoginResponse expectedResponse = new ModelMapper().map(request, LoginResponse.class);
-
 
         when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(user));
         when(!passwordEncoder.matches(request.getPassword(), user.getPassword())).thenReturn(true);
@@ -73,21 +70,21 @@ public class UserServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
-
     @Test
     public void testUpdateAccountBalance() {
         User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 0.0);
         AccountBalanceRequest request = new AccountBalanceRequest(100.0);
         User updatedAmount = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 100.0);
-        AccountBalanceResponse expectedResponse = new ModelMapper().map(updatedAmount, AccountBalanceResponse.class);
+        AccountBalanceResponse expectedResponse =
+                new ModelMapper().map(updatedAmount, AccountBalanceResponse.class);
         Authentication auth = Mockito.mock(Authentication.class);
         SecurityContext secCont = Mockito.mock(SecurityContext.class);
 
         Mockito.when(secCont.getAuthentication()).thenReturn(auth);
         SecurityContextHolder.setContext(secCont);
 
-        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(user);
-
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+                .thenReturn(user);
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(updatedAmount);

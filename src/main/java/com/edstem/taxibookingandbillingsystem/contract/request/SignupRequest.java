@@ -10,9 +10,11 @@ import lombok.Getter;
 public class SignupRequest {
     @NotBlank(message = "Name should not be blank")
     private String name;
+
     @NotBlank(message = "Email should not be blank")
     @Email
     private String email;
+
     @NotBlank(message = "Password should not be blank")
     private String password;
 }

@@ -3,7 +3,6 @@ package com.edstem.taxibookingandbillingsystem.service;
 import com.edstem.taxibookingandbillingsystem.contract.request.TaxiRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingandbillingsystem.exception.EntityAlreadyExistsException;
-import com.edstem.taxibookingandbillingsystem.exception.InvalidUserException;
 import com.edstem.taxibookingandbillingsystem.model.Taxi;
 import com.edstem.taxibookingandbillingsystem.repository.TaxiRepository;
 import lombok.AllArgsConstructor;
@@ -25,4 +24,3 @@ public class TaxiService {
         return modelMapper.map(taxi, TaxiResponse.class);
     }
 }
-

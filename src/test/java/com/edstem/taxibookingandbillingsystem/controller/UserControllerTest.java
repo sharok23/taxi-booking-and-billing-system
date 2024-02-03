@@ -1,5 +1,10 @@
 package com.edstem.taxibookingandbillingsystem.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.edstem.taxibookingandbillingsystem.contract.request.AccountBalanceRequest;
 import com.edstem.taxibookingandbillingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingandbillingsystem.contract.request.SignupRequest;
@@ -17,23 +22,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private UserService userService;
+    @MockBean private UserService userService;
 
     @Test
     void testSignUp() throws Exception {
-        SignupRequest signupRequest = new SignupRequest("sharok", "sharok23@gmail.com", "Helloworld");
+        SignupRequest signupRequest =
+                new SignupRequest("sharok", "sharok23@gmail.com", "Helloworld");
         SignupResponse expectedResponse = new SignupResponse(1L, "sharok");
         when(userService.userSignup(any(SignupRequest.class))).thenReturn(expectedResponse);
 
@@ -43,13 +42,14 @@ public class UserControllerTest {
                                 .content(new ObjectMapper().writeValueAsString(signupRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-
     }
 
     @Test
     void testLogin() throws Exception {
         LoginRequest loginRequest = new LoginRequest("sharok23@gmail.com", "Helloworld");
-        LoginResponse expectedResponse = new LoginResponse("eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjIsInN1YiI6IjJAZ21haWwuY29tIiwiaWF0IjoxNzA2OTM5Njg3LCJleHAiOjE3MDcwMjYwODd9.FhuhQzgMlXpdCyEJ0hfm8VNbvBYgv6eeZcwhpacfQEg");
+        LoginResponse expectedResponse =
+                new LoginResponse(
+                        "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjIsInN1YiI6IjJAZ21haWwuY29tIiwiaWF0IjoxNzA2OTM5Njg3LCJleHAiOjE3MDcwMjYwODd9.FhuhQzgMlXpdCyEJ0hfm8VNbvBYgv6eeZcwhpacfQEg");
         when(userService.userLogin(any(LoginRequest.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(
@@ -58,14 +58,14 @@ public class UserControllerTest {
                                 .content(new ObjectMapper().writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-
     }
 
     @Test
     void testUpdateAccountBalance() throws Exception {
         AccountBalanceRequest request = new AccountBalanceRequest(500.0);
         AccountBalanceResponse expectedResponse = new AccountBalanceResponse(1500.0);
-        when(userService.updateAccountBalance(any(AccountBalanceRequest.class))).thenReturn(expectedResponse);
+        when(userService.updateAccountBalance(any(AccountBalanceRequest.class)))
+                .thenReturn(expectedResponse);
 
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/v1")

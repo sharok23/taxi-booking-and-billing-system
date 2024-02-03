@@ -1,5 +1,9 @@
 package com.edstem.taxibookingandbillingsystem.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.edstem.taxibookingandbillingsystem.contract.request.TaxiRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingandbillingsystem.model.Taxi;
@@ -9,10 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 public class TaxiServiceTest {
     private TaxiRepository taxiRepository;
@@ -40,5 +40,4 @@ public class TaxiServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
-
 }
