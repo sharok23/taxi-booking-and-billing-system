@@ -6,6 +6,7 @@ import com.edstem.taxibookingandbillingsystem.contract.request.TaxiRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.CancelResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
+import com.edstem.taxibookingandbillingsystem.model.Booking;
 import com.edstem.taxibookingandbillingsystem.service.BookingService;
 import com.edstem.taxibookingandbillingsystem.service.TaxiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -54,6 +57,20 @@ public class BookingControllerTest {
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
     }
 
+//    @Test
+//    void testViewBookingDetail() throws Exception {
+//        Long bookingId = 1L;
+//        BookingResponse expectedResponse = new BookingResponse(1L, 1L, 1L, "Aluva", "Kakkanad", 800.0, "2024-02-03 10:18:28.012173", Status.BOOKED);
+//
+//        when(bookingService.viewBookingDetail(bookingId)).thenReturn(expectedResponse);
+//
+//        mockMvc.perform(
+//                        post("/book/{bookingId}",bookingId)
+//                                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+//    }
+
 
     @Test
     void testCancelBooking() throws Exception {
@@ -66,7 +83,7 @@ public class BookingControllerTest {
         when(bookingService.cancelBooking(anyLong(), anyLong())).thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        put("/book/cancel"+bookingId)
+                        put("/book/cancel/{bookingId}",bookingId)
                                 .param("taxiId", String.valueOf(taxiId))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
