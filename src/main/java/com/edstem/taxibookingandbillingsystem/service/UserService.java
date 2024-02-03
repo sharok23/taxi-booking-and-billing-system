@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +29,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
-//    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     public SignupResponse userSignup(SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -46,9 +47,6 @@ public class UserService {
     public LoginResponse userLogin(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()->
         new  InvalidUserException("Login"));
-
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 throw new InvalidUserException("Login");
             }
@@ -58,17 +56,43 @@ public class UserService {
                 .build();
     }
 
-    public AccountBalanceResponse updateAccountBalance(Long id, AccountBalanceRequest request) {
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("User", id));
+//    public LoginResponse userLogin(LoginRequest request) {
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+//        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+//        String jwtToken = jwtService.generateToken(user);
+//        return LoginResponse.builder()
+//                .token(jwtToken)
+//                .build();
+//    }
+
+//    public AccountBalanceResponse updateAccountBalance(Long id, AccountBalanceRequest request) {
+//        User user = userRepository.findById(id).orElseThrow(() ->
+//                new EntityNotFoundException("User", id));
+//        user = User.builder()
+//                .id(user.getId())
+//                .name(user.getName())
+//                .email(user.getEmail())
+//                .password(user.getPassword())
+//                .accountBalance(user.getAccountBalance()+ request.getAccountBalance())
+//                .build();
+//        User updatedAccountBalance=userRepository.save(user);
+//        return modelMapper.map(updatedAccountBalance, AccountBalanceResponse.class);
+//    }
+
+    public AccountBalanceResponse updateAccountBalance(AccountBalanceRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String userEmail = user.getEmail();
+        user = userRepository.findByEmail(userEmail).orElseThrow(() -> new EntityNotFoundException("User"));
         user = User.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .accountBalance(user.getAccountBalance()+ request.getAccountBalance())
+                .accountBalance(user.getAccountBalance() + request.getAccountBalance())
                 .build();
-        User updatedAccountBalance=userRepository.save(user);
+        User updatedAccountBalance = userRepository.save(user);
         return modelMapper.map(updatedAccountBalance, AccountBalanceResponse.class);
     }
 }

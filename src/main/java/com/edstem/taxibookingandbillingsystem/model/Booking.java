@@ -37,4 +37,6 @@ public class Booking {
     private User user;
     @ManyToOne
     private Taxi taxi;
+
+
 }

@@ -1,11 +1,13 @@
 package com.edstem.taxibookingandbillingsystem.contract.response;
 
 import com.edstem.taxibookingandbillingsystem.constant.Status;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@EqualsAndHashCode
 public class BookingResponse {
     private Long id;
     private Long userId;
@@ -13,6 +15,6 @@ public class BookingResponse {
     private String pickupLocation;
     private String dropoffLocation;
     private Double fare;
-    private LocalDateTime bookingTime;
+    private String bookingTime;
     private Status status;
 }

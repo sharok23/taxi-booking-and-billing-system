@@ -26,21 +26,27 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping("/searchTaxi")
-    public List<TaxiResponse> searchNearestTaxi(@RequestParam Long userId, @RequestParam String pickupLocation) {
-        return bookingService.searchNearestTaxi(userId, pickupLocation);
+    public List<TaxiResponse> searchNearestTaxi(@RequestParam String pickupLocation) {
+        return bookingService.searchNearestTaxi(pickupLocation);
     }
+//    @PostMapping
+//    public BookingResponse bookTaxi(@Valid @RequestBody BookingRequest request, @RequestParam Long userId, @RequestParam Long taxiId,@RequestParam Long distance) {
+//        return bookingService.bookTaxi(request, userId, taxiId,distance);
+//    }
+
     @PostMapping
-    public BookingResponse bookTaxi(@Valid @RequestBody BookingRequest request, @RequestParam Long userId, @RequestParam Long taxiId,@RequestParam Long distance) {
-        return bookingService.bookTaxi(request, userId, taxiId,distance);
+    public BookingResponse bookTaxi(@Valid @RequestBody BookingRequest request, @RequestParam Long taxiId,@RequestParam Long distance) {
+        return bookingService.bookTaxi(request, taxiId,distance);
     }
 
+
     @GetMapping("/{bookingId}")
-    public BookingResponse viewBookingDetail(@PathVariable Long bookingId,@RequestParam Long userId) {
-        return bookingService.viewBookingDetail(bookingId,userId);
+    public BookingResponse viewBookingDetail(@PathVariable Long bookingId) {
+        return bookingService.viewBookingDetail(bookingId);
     }
 
     @PutMapping("/cancel/{bookingId}")
-    public CancelResponse cancelBooking(@PathVariable Long bookingId, @RequestParam Long userId, @RequestParam Long taxiId) {
-        return bookingService.cancelBooking(bookingId,userId,taxiId);
+    public CancelResponse cancelBooking(@PathVariable Long bookingId, @RequestParam Long taxiId) {
+        return bookingService.cancelBooking(bookingId,taxiId);
     }
 }

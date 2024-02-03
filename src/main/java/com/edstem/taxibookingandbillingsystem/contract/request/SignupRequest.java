@@ -15,6 +15,4 @@ public class SignupRequest {
     private String email;
     @NotBlank(message = "Password should not be blank")
     private String password;
-
-
 }

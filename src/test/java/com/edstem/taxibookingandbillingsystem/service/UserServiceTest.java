@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -75,16 +78,24 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateAccountBalance() {
-        Long id = 1L;
         User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 0.0);
         AccountBalanceRequest request = new AccountBalanceRequest(100.0);
         User updatedAmount = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 100.0);
         AccountBalanceResponse expectedResponse = new ModelMapper().map(updatedAmount, AccountBalanceResponse.class);
+        Authentication auth = Mockito.mock(Authentication.class);
+        SecurityContext secCont = Mockito.mock(SecurityContext.class);
 
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        Mockito.when(secCont.getAuthentication()).thenReturn(auth);
+        SecurityContextHolder.setContext(secCont);
+
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(user);
+
+
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(updatedAmount);
 
-        AccountBalanceResponse actualResponse = userService.updateAccountBalance(id, request);
+        AccountBalanceResponse actualResponse = userService.updateAccountBalance(request);
 
         assertEquals(expectedResponse, actualResponse);
     }

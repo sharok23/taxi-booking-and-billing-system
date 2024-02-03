@@ -41,45 +41,46 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-//    public String extractEmail(String token) {
-//        return extractClaim(token, Claims::getSubject);
-//    }
-//
-//    public boolean isTokenValid(String token, UserDetails userDetails) {
-//        final String username = extractEmail(token);
-// //       List<Permission> permissions = extractPermissions(token);
-
-//
-//        if (!username.equals(userDetails.getUsername())) {
-//            throw new InvalidUserException("Login");
-//        }
-//        if (isTokenExpired(token)) {
-//            throw new InvalidUserException("Login");
-//        }
-//
-//        return true;
-//    }
-//    private boolean isTokenExpired(String token) {
-//        return extractExpiration(token).before(new Date());
-//    }
-
-//    private Date extractExpiration(String token) {
-//        return extractClaim(token, Claims::getExpiration);
-//    }
+    public String extractEmail(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
 
 
-//    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-//        final Claims claims = extractAllClaims(token);
-//        return claimsResolver.apply(claims);
-//    }
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractEmail(token);
+ //       List<Permission> permissions = extractPermissions(token);
 
-//    private Claims extractAllClaims(String token) {
-//        return Jwts.parserBuilder()
-//                .setSigningKey(getSignInKey())
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//    }
+
+        if (!username.equals(userDetails.getUsername())) {
+            throw new InvalidUserException("Login");
+        }
+        if (isTokenExpired(token)) {
+            throw new InvalidUserException("Login");
+        }
+
+        return true;
+    }
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 
 //    public List<Permission> extractPermissions(String token) {
 //        // Extract the claims from the token

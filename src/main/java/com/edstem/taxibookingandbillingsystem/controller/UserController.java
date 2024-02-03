@@ -18,23 +18,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/v1")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public SignupResponse userSignup(@Valid @RequestBody SignupRequest request){
         return userService.userSignup(request);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public LoginResponse userLogin(@Valid @RequestBody LoginRequest request){
         return userService.userLogin(request);
     }
 
-    @PutMapping("/{id}")
-    public AccountBalanceResponse updateAccountBalance(@PathVariable Long id,@RequestBody AccountBalanceRequest request){
-        return userService.updateAccountBalance(id,request);
-    }
+//    @PutMapping("/{id}")
+//    public AccountBalanceResponse updateAccountBalance(@PathVariable Long id,@RequestBody AccountBalanceRequest request){
+//        return userService.updateAccountBalance(id,request);
+//    }
+    @PutMapping()
+    public AccountBalanceResponse updateAccountBalance(@RequestBody AccountBalanceRequest request){
+    return userService.updateAccountBalance(request);
+}
 }
