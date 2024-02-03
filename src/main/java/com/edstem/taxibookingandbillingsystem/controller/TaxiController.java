@@ -22,7 +22,7 @@ public class TaxiController {
     private final TaxiService taxiService;
 
     @PostMapping
-    public TaxiResponse AddTaxi(@Valid @RequestBody TaxiRequest request) {
-        return taxiService.AddTaxi(request);
+    public TaxiResponse addTaxi(@Valid @RequestBody TaxiRequest request) {
+        return taxiService.addTaxi(request);
     }
 }

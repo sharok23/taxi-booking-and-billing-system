@@ -1,6 +1,8 @@
 package com.edstem.taxibookingandbillingsystem.controller;
 
+import com.edstem.taxibookingandbillingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingandbillingsystem.contract.request.SignupRequest;
+import com.edstem.taxibookingandbillingsystem.contract.response.LoginResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.SignupResponse;
 import com.edstem.taxibookingandbillingsystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,12 +41,31 @@ public class UserControllerTest {
         String jsonRequest = objectMapper.writeValueAsString(signupRequest);
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/user/signup")
+                        MockMvcRequestBuilders.post("/v1/user/signup")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonRequest))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
 
         verify(userService, times(1)).userSignup(any(SignupRequest.class));
+    }
+
+    @Test
+    void testLogin() throws Exception {
+        LoginRequest loginRequest = new LoginRequest("sharok23@gmail.com","Helloworld");
+        LoginResponse expectedResponse = new LoginResponse("eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjIsInN1YiI6IjJAZ21haWwuY29tIiwiaWF0IjoxNzA2OTM5Njg3LCJleHAiOjE3MDcwMjYwODd9.FhuhQzgMlXpdCyEJ0hfm8VNbvBYgv6eeZcwhpacfQEg");
+        when(userService.userLogin(any(LoginRequest.class))).thenReturn(expectedResponse);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonRequest = objectMapper.writeValueAsString(loginRequest);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/user/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonRequest))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+
+        verify(userService, times(1)).userLogin(any(LoginRequest.class));
     }
 }

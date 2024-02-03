@@ -4,6 +4,7 @@ import com.edstem.taxibookingandbillingsystem.constant.Status;
 import com.edstem.taxibookingandbillingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.AccountBalanceResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.BookingResponse;
+import com.edstem.taxibookingandbillingsystem.contract.response.CancelResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingandbillingsystem.model.Booking;
 import com.edstem.taxibookingandbillingsystem.model.Taxi;
@@ -28,6 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.edstem.taxibookingandbillingsystem.constant.Status.BOOKED;
+import static com.edstem.taxibookingandbillingsystem.constant.Status.CANCELLED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -114,12 +116,69 @@ public class BookingServiceTest {
 
     }
 
-    @Test
-    void testViewBookingDetail(){
-        BookingResponse booking  = new Booking(1L,"Aluva","Kakkanad",50D,"2024-02-03 10:18:28.012173",BOOKED,1L,1L);
+//    @Test
+//    void testViewBookingDetail(){
+//        User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 1000.0);
+//        Taxi taxi = new Taxi(1L,"Midun","KL 01 5508","Kakkanad");
+//        BookingRequest request = new BookingRequest("Kakkanad","Aluva");
+//        Long taxiId = 1L;
+//        Long distance = 80L;
+//        Double expense = distance * 10D;
+//        Booking expectedBooking = Booking.builder()
+//                .user(user)
+//                .taxi(taxi)
+//                .pickupLocation(request.getPickupLocation())
+//                .dropoffLocation(request.getDropoffLocation())
+//                .bookingTime(LocalDateTime.parse(LocalDateTime.now().toString()))
+//                .fare(expense)
+//                .status(BOOKED)
+//                .build();
+//        BookingResponse expectedResponse = modelMapper.map(expectedBooking,BookingResponse.class);
+//
+//        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(user);
+//        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+//        when(bookingRepository.findById(expectedBooking.getId())).thenReturn(Optional.of(expectedBooking));
+//
+//        BookingResponse actualResponse = bookingService.viewBookingDetail(expectedBooking.getId());
+//        assertEquals(expectedResponse, actualResponse);
+//
+//    }
 
-    }
 
+//    @Test
+//    void testCancelBooking(){
+//        User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 1000.0);
+//        Taxi taxi = new Taxi(1L,"Midun","KL 01 5508","Kakkanad");
+//        Long taxiId = 1L;
+//        Long bookindId = 1L;
+//        Long distance = 80L;
+//        Double expense = distance * 10D;
+//        Booking expectedBooking = Booking.builder()
+//                .id(bookindId)
+//                .user(user)
+//                .taxi(taxi)
+//                .pickupLocation("Aluva")
+//                .dropoffLocation("Kakkanad")
+//                .bookingTime(LocalDateTime.parse(LocalDateTime.now().toString()))
+//                .fare(expense)
+//                .status(CANCELLED)
+//                .build();
+//
+//        BookingResponse expectedResponse = modelMapper.map(expectedBooking,BookingResponse.class);
+//
+//        Authentication auth = Mockito.mock(Authentication.class);
+//        SecurityContext secCont = Mockito.mock(SecurityContext.class);
+//        Mockito.when(secCont.getAuthentication()).thenReturn(auth);
+//        SecurityContextHolder.setContext(secCont);
+//
+//        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(user);
+//        when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(taxi));
+////        when(bookingRepository.findById(bookindId)).thenReturn(Optional.of(b));
+//        when(bookingRepository.save(any())).thenReturn(expectedBooking);
+//
+//        CancelResponse actualResponse = bookingService.cancelBooking(bookindId,taxiId);
+//        assertEquals(expectedResponse, actualResponse);
+//    }
 
 
 }

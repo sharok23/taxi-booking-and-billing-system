@@ -16,7 +16,7 @@ public class TaxiService {
     private final TaxiRepository taxiRepository;
     private final ModelMapper modelMapper;
 
-    public TaxiResponse AddTaxi(TaxiRequest request) {
+    public TaxiResponse addTaxi(TaxiRequest request) {
         if (taxiRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new EntityAlreadyExistsException("License number");
         }

@@ -36,7 +36,7 @@ public class TaxiServiceTest {
         when(taxiRepository.existsByLicenseNumber(request.getLicenseNumber())).thenReturn(false);
         when(taxiRepository.save(any())).thenReturn(taxi);
 
-        TaxiResponse actualResponse = taxiService.AddTaxi(request);
+        TaxiResponse actualResponse = taxiService.addTaxi(request);
 
         assertEquals(expectedResponse, actualResponse);
     }
