@@ -1,18 +1,10 @@
 package com.edstem.taxibookingandbillingsystem.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.edstem.taxibookingandbillingsystem.constant.Status;
 import com.edstem.taxibookingandbillingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.CancelResponse;
+import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingandbillingsystem.service.BookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -23,31 +15,41 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class BookingControllerTest {
-    @Autowired private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @MockBean private BookingService bookingService;
+    @MockBean
+    private BookingService bookingService;
 
     @Test
     void testSearchNearestTaxi() throws Exception {
         String pickupLocation = "Aluva";
-        BookingResponse expectedResponse =
-                new BookingResponse(
+        List<TaxiResponse> expectedResponse = Collections.singletonList(
+                new TaxiResponse(
                         1L,
-                        1L,
-                        1L,
-                        "Aluva",
-                        "Kakkanad",
-                        800.0,
-                        "2024-02-03 10:18:28.012173",
-                        Status.BOOKED);
+                        "Midun",
+                        "KL 01 5508",
+                        "Aluva"));
 
         when(bookingService.searchNearestTaxi(pickupLocation)).thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        get("/book")
+                        get("/book/searchTaxi")
                                 .param("pickupLocation", String.valueOf(pickupLocation))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
