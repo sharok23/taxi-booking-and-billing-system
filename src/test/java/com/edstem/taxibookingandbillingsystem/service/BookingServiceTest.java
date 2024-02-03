@@ -121,7 +121,7 @@ public class BookingServiceTest {
         User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 1000.0);
         Taxi taxi = new Taxi(1L,"Midun","KL 01 5508","Kakkanad");
         BookingRequest request = new BookingRequest("Kakkanad","Aluva");
-        Long taxiId = 1L;
+        Long bookingId = 1L;
         Long distance = 80L;
         Double expense = distance * 10.0;
         Booking expectedBooking = Booking.builder()
@@ -135,12 +135,11 @@ public class BookingServiceTest {
                 .build();
         BookingResponse expectedResponse = modelMapper.map(expectedBooking,BookingResponse.class);
 
-
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(user);
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(bookingRepository.findById(expectedBooking.getId())).thenReturn(Optional.of(expectedBooking));
 
-        BookingResponse actualResponse = bookingService.viewBookingDetail(expectedBooking.getId());
+        BookingResponse actualResponse = bookingService.viewBookingDetail(bookingId);
         assertEquals(expectedResponse, actualResponse);
 
     }
@@ -151,11 +150,11 @@ public class BookingServiceTest {
 //        User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 1000.0);
 //        Taxi taxi = new Taxi(1L,"Midun","KL 01 5508","Kakkanad");
 //        Long taxiId = 1L;
-//        Long bookingId = 1L;
+//        Long bookindId = 1L;
 //        Long distance = 80L;
 //        Double expense = distance * 10D;
 //        Booking expectedBooking = Booking.builder()
-//                .id(bookingId)
+//                .id(bookindId)
 //                .user(user)
 //                .taxi(taxi)
 //                .pickupLocation("Aluva")
@@ -167,17 +166,17 @@ public class BookingServiceTest {
 //
 //        BookingResponse expectedResponse = modelMapper.map(expectedBooking,BookingResponse.class);
 //
-//
 //        Authentication auth = Mockito.mock(Authentication.class);
 //        SecurityContext secCont = Mockito.mock(SecurityContext.class);
 //        Mockito.when(secCont.getAuthentication()).thenReturn(auth);
 //        SecurityContextHolder.setContext(secCont);
 //
 //        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(user);
-////        when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(taxi));
-//        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(expectedBooking));        when(bookingRepository.save(any())).thenReturn(expectedBooking);
+//        when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(taxi));
+////        when(bookingRepository.findById(bookindId)).thenReturn(Optional.of(b));
+//        when(bookingRepository.save(any())).thenReturn(expectedBooking);
 //
-//        CancelResponse actualResponse = bookingService.cancelBooking(bookingId,taxiId);
+//        CancelResponse actualResponse = bookingService.cancelBooking(bookindId,taxiId);
 //        assertEquals(expectedResponse, actualResponse);
 //    }
 
