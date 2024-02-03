@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "155b439f-c678-477f-a447-905efe3175ad",
+		"name": "taxi-booking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28741936"
+	},
+	"item": [
+		{
+			"name": "userSignup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"sharok\",\r\n    \"email\": \"\",\r\n    \"password\":\"Hellowdude23@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/user/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "userLogin",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"sharok@gmail.com\",\r\n  \"password\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/user/login"
+			},
+			"response": []
+		},
+		{
+			"name": "bookTaxi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjEsInN1YiI6IjFAZ21haWwuY29tIiwiaWF0IjoxNzA2OTM0NTg0LCJleHAiOjE3MDcwMjA5ODR9.wr87s9zUNXUUfNPHTf2st0TNxgF03ZIvnc9Es8UOAh4\""
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupLocation\":\"Kochi\",\r\n    \"dropoffLocation\":\"Kakkanad\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/book?distance=80&taxiId=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "distance",
+							"value": "80"
+						},
+						{
+							"key": "taxiId",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "viewBookingDetail",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjEsInN1YiI6IjFAZ21haWwuY29tIiwiaWF0IjoxNzA2OTU1MzE0LCJleHAiOjE3MDcwNDE3MTR9.lf4FUXwtR7d3dcfUnX6bAwy3uq0RN9D-ti4geL9wsF4"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/book/7"
+			},
+			"response": []
+		},
+		{
+			"name": "AddTaxi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjEsInN1YiI6IjFAZ21haWwuY29tIiwiaWF0IjoxNzA2ODk0NTYzLCJleHAiOjE3MDY5ODA5NjN9.2F9XVits-JU7VBR36kbMOtAwayrpA0GjaJ9QixXMmT8"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"driverName\":\"sharokn\",\r\n    \"licenseNumber\":\"KL 55 14002d\",\r\n    \"currentLocation\":\"Aluva\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/taxi"
+			},
+			"response": []
+		},
+		{
+			"name": "searchNearestTaxi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjEsInN1YiI6IjFAZ21haWwuY29tIiwiaWF0IjoxNzA2ODk4MTU4LCJleHAiOjE3MDY5ODQ1NTh9.5KzY5kI41eKyyLTREGyEJkzDSsd_nVybj3Sktm6FMB8"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/book/searchTaxi?pickupLocation=Aluva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"searchTaxi"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "26",
+							"disabled": true
+						},
+						{
+							"key": "pickupLocation",
+							"value": "Aluva"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateAccountBalance",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjIsInN1YiI6IjJAZ21haWwuY29tIiwiaWF0IjoxNzA2OTM0NDczLCJleHAiOjE3MDcwMjA4NzN9.2RmO1SIWcxNxP0-d50hb1NsaQshxQTwVz6PqA3m99qY"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountBalance\":1500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1"
+			},
+			"response": []
+		},
+		{
+			"name": "cancelBooking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoic2hhcm9rIiwiaWQiOjEsInN1YiI6IjFAZ21haWwuY29tIiwiaWF0IjoxNzA2OTU1MzE0LCJleHAiOjE3MDcwNDE3MTR9.lf4FUXwtR7d3dcfUnX6bAwy3uq0RN9D-ti4geL9wsF4"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/book/cancel/7?taxiId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"cancel",
+						"7"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "taxiId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
