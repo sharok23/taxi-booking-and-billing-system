@@ -4,7 +4,9 @@ The Taxi Booking System is a Spring Boot application that provides a platform fo
 ## User Operations:
 
 /v1/user/signup (POST): Sign up a new user.
+
 /v1/user/login (POST): Log in an existing user.
+
 /v1/user/balance (PUT): Update user account balance.
 Taxi Operations:
 
@@ -12,6 +14,9 @@ Taxi Operations:
 Booking Operations:
 
 /book/searchTaxi (GET): Search for the nearest available taxi.
+
 /book (POST): Book a taxi.
+
 /book/{bookingId} (GET): View booking details.
+
 /book/cancel/{bookingId} (PUT): Cancel a booking.
