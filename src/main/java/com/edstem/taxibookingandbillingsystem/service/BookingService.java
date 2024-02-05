@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,12 +34,6 @@ public class BookingService {
     private final TaxiRepository taxiRepository;
 
     public List<TaxiResponse> searchNearestTaxi(String pickupLocation) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        User finalUser =
-                userRepository
-                        .findById(user.getId())
-                        .orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
         List<Taxi> allTaxies = taxiRepository.findAll();
         List<Taxi> availableTaxies = new ArrayList<>();
         for (Taxi taxies : allTaxies) {
@@ -58,7 +53,7 @@ public class BookingService {
     public BookingResponse bookTaxi(BookingRequest request, Long taxiId, Long distance) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        Taxi taxi =
+                Taxi taxi =
                 taxiRepository
                         .findById(taxiId)
                         .orElseThrow(() -> new EntityNotFoundException("Taxi", taxiId));
@@ -92,10 +87,6 @@ public class BookingService {
     public BookingResponse viewBookingDetail(Long bookingId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        User finalUser =
-                userRepository
-                        .findById(user.getId())
-                        .orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
         Booking booking =
                 bookingRepository
                         .findById(bookingId)
@@ -114,10 +105,6 @@ public class BookingService {
                 bookingRepository
                         .findById(bookingId)
                         .orElseThrow(() -> new EntityNotFoundException("Booking", bookingId));
-        User userFinal =
-                userRepository
-                        .findById(user.getId())
-                        .orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
         Taxi taxi =
                 taxiRepository
                         .findById(taxiId)
@@ -134,7 +121,7 @@ public class BookingService {
         Booking bookings =
                 Booking.builder()
                         .id(bookingId)
-                        .user(userFinal)
+                        .user(user)
                         .taxi(taxi)
                         .pickupLocation(booking.getPickupLocation())
                         .dropoffLocation(booking.getDropoffLocation())
@@ -145,4 +132,5 @@ public class BookingService {
         bookingRepository.save(bookings);
         return CancelResponse.builder().cancel("Booked taxi has been cancelled").build();
     }
+
 }

@@ -1,6 +1,7 @@
 package com.edstem.taxibookingandbillingsystem.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -10,6 +11,8 @@ import com.edstem.taxibookingandbillingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.AccountBalanceResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.LoginResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.SignupResponse;
+import com.edstem.taxibookingandbillingsystem.exception.EntityNotFoundException;
+import com.edstem.taxibookingandbillingsystem.exception.InvalidUserException;
 import com.edstem.taxibookingandbillingsystem.model.User;
 import com.edstem.taxibookingandbillingsystem.repository.UserRepository;
 import com.edstem.taxibookingandbillingsystem.security.JwtService;
@@ -47,6 +50,9 @@ public class UserServiceTest {
         User user = modelMapper.map(request, User.class);
         SignupResponse expectedResponse = modelMapper.map(user, SignupResponse.class);
 
+        when(userRepository.existsByEmail(request.getEmail())).thenReturn(true);
+        assertThrows(InvalidUserException.class, () -> userService.userSignup(request));
+
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
         when(passwordEncoder.encode("Helloworld")).thenReturn("Helloworld");
         when(userRepository.save(any())).thenReturn(user);
@@ -56,6 +62,7 @@ public class UserServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
+
     @Test
     void testLogin() {
         User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 0.0);
@@ -63,6 +70,8 @@ public class UserServiceTest {
         LoginResponse expectedResponse = new ModelMapper().map(request, LoginResponse.class);
 
         when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(user));
+        when(!passwordEncoder.matches(request.getPassword(), user.getPassword())).thenReturn(false);
+        assertThrows(InvalidUserException.class, () -> userService.userLogin(request));
         when(!passwordEncoder.matches(request.getPassword(), user.getPassword())).thenReturn(true);
 
         LoginResponse actualResponse = userService.userLogin(request);
@@ -85,6 +94,9 @@ public class UserServiceTest {
 
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal())
                 .thenReturn(user);
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+        assertThrows(EntityNotFoundException.class, () -> userService.updateAccountBalance(request));
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(updatedAmount);
