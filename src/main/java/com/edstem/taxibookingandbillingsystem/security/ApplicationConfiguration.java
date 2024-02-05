@@ -1,7 +1,5 @@
 package com.edstem.taxibookingandbillingsystem.security;
 
-// import com.edstem.taxibookingandbillingsystem.exception.EntityNotFoundException;
-
 import com.edstem.taxibookingandbillingsystem.exception.EntityNotFoundException;
 import com.edstem.taxibookingandbillingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
