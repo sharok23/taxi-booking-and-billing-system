@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,7 +52,7 @@ public class BookingService {
     public BookingResponse bookTaxi(BookingRequest request, Long taxiId, Long distance) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-                Taxi taxi =
+        Taxi taxi =
                 taxiRepository
                         .findById(taxiId)
                         .orElseThrow(() -> new EntityNotFoundException("Taxi", taxiId));
@@ -132,5 +131,4 @@ public class BookingService {
         bookingRepository.save(bookings);
         return CancelResponse.builder().cancel("Booked taxi has been cancelled").build();
     }
-
 }

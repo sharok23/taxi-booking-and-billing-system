@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -49,19 +48,14 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractEmail(token);
-
-        if (!username.equals(userDetails.getUsername())) {
+        final String username = extractClaim(token, Claims::getSubject);
+        if (!username.equals(userDetails.getUsername()) || isTokenExpired(token)) {
             throw new InvalidUserException("Login");
         }
-        if (isTokenExpired(token)) {
-            throw new InvalidUserException("Login");
-        }
-
         return true;
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 

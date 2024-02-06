@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import com.edstem.taxibookingandbillingsystem.contract.request.TaxiRequest;
 import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingandbillingsystem.exception.EntityAlreadyExistsException;
-import com.edstem.taxibookingandbillingsystem.exception.EntityNotFoundException;
 import com.edstem.taxibookingandbillingsystem.model.Taxi;
 import com.edstem.taxibookingandbillingsystem.repository.TaxiRepository;
 import org.junit.jupiter.api.BeforeEach;

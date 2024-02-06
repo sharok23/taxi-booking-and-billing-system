@@ -55,13 +55,13 @@ public class UserServiceTest {
 
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
         when(passwordEncoder.encode("Helloworld")).thenReturn("Helloworld");
+
         when(userRepository.save(any())).thenReturn(user);
 
         SignupResponse actualResponse = userService.userSignup(request);
 
         assertEquals(expectedResponse, actualResponse);
     }
-
 
     @Test
     void testLogin() {
@@ -88,7 +88,6 @@ public class UserServiceTest {
                 new ModelMapper().map(updatedAmount, AccountBalanceResponse.class);
         Authentication auth = Mockito.mock(Authentication.class);
         SecurityContext secCont = Mockito.mock(SecurityContext.class);
-
         Mockito.when(secCont.getAuthentication()).thenReturn(auth);
         SecurityContextHolder.setContext(secCont);
 
@@ -96,7 +95,8 @@ public class UserServiceTest {
                 .thenReturn(user);
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> userService.updateAccountBalance(request));
+        assertThrows(
+                EntityNotFoundException.class, () -> userService.updateAccountBalance(request));
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(updatedAmount);
