@@ -2,7 +2,11 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taxibooking
     username: postgres
+<<<<<<< HEAD
+    password: devadath@1234
+=======
     password: aswa19
+>>>>>>> 8ca2ce1d2468ef542064fd84dda471558a6790a3
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
