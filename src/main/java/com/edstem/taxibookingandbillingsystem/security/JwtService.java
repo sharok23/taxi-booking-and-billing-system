@@ -19,11 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private static final String secretKey = System.getenv("SECRET_KEY");
 
-    @Value("${jwt.expiry}")
-    private Integer expirationTime;
+    private Integer expirationTime = 36000000;
 
     public String generateToken(User userDetails) {
         Map<String, Object> claims = new HashMap<>();
