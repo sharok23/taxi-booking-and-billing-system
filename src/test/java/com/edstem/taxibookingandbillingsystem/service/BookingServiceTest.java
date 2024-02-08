@@ -190,14 +190,12 @@ public class BookingServiceTest {
                 .thenReturn(user);
 
         when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(taxi));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(expectedBooking));
         when(bookingRepository.save(any())).thenReturn(expectedBooking);
 
         CancelResponse actualResponse = bookingService.cancelBooking(bookingId, taxiId);
         assertEquals(expectedResponse, actualResponse);
 
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(taxiRepository.findById(user.getId())).thenReturn(Optional.empty());
         assertThrows(
                 EntityNotFoundException.class,
