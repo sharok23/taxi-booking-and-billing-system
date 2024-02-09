@@ -8,4 +8,9 @@ class TaxiBookingAndBillingSystemApplicationTests {
 
     @Test
     void contextLoads() {}
+
+    @Test
+    public void main() {
+        TaxiBookingAndBillingSystemApplication.main(new String[] {});
+    }
 }

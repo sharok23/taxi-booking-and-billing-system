@@ -13,6 +13,7 @@ import com.edstem.taxibookingandbillingsystem.contract.response.CancelResponse;
 import com.edstem.taxibookingandbillingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingandbillingsystem.exception.BookingAlreadyCancelledException;
 import com.edstem.taxibookingandbillingsystem.exception.EntityNotFoundException;
+import com.edstem.taxibookingandbillingsystem.exception.InsufficientBalanceException;
 import com.edstem.taxibookingandbillingsystem.model.Booking;
 import com.edstem.taxibookingandbillingsystem.model.Taxi;
 import com.edstem.taxibookingandbillingsystem.model.User;
@@ -115,7 +116,6 @@ public class BookingServiceTest {
                 .thenReturn(user);
 
         when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(taxi));
-
         when(bookingRepository.save(any())).thenReturn(expectedBooking);
         when(userRepository.save(any())).thenReturn(updatedUser);
 
@@ -227,5 +227,35 @@ public class BookingServiceTest {
         assertThrows(
                 BookingAlreadyCancelledException.class,
                 () -> bookingService.cancelBooking(bookingId, taxiId));
+    }
+
+    @Test
+    void testBookTaxi_InsufficientBalance() {
+        User user = new User(1L, "Sharok", "sharok@gmail.com", "Helloworld", 500.0);
+        Taxi taxi =
+                Taxi.builder()
+                        .driverName("Midun")
+                        .licenseNumber("KL 01 5508")
+                        .currentLocation("Kakkanad")
+                        .build();
+
+        BookingRequest request = new BookingRequest("Kakkanad", "Aluva");
+        Long taxiId = 1L;
+        Long distance = 80L;
+
+        Authentication auth = Mockito.mock(Authentication.class);
+        SecurityContext secCont = Mockito.mock(SecurityContext.class);
+        Mockito.when(secCont.getAuthentication()).thenReturn(auth);
+        SecurityContextHolder.setContext(secCont);
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+                .thenReturn(user);
+
+        when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(taxi));
+
+        assertThrows(
+                InsufficientBalanceException.class,
+                () -> {
+                    bookingService.bookTaxi(request, taxiId, distance);
+                });
     }
 }
